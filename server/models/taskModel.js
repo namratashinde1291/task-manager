@@ -23,7 +23,7 @@ const fetchTasks = async ({ user_id }) => {
 const updateTask = async({title, description, due_date, status, user_id, task_id})=>{
     try{
         const result= await pool.query(
-        'update tasks set title=$1, description =$2, due_date = $3, status = $4, user_id=$5 where id=$6 returning *',
+        'update tasks set title=$1, description =$2, due_date = $3, status = $4, updated_by=$5 where id=$6 returning *',
         [title, description, due_date, status, user_id, task_id]);
         return result.rows;
     }
