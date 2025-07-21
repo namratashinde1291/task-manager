@@ -20,4 +20,17 @@ const fetchTasks = async ({ user_id }) => {
   return result.rows;
 };
 
-module.exports = { fetchTasks, addTask };
+const updateTask = async({title, description, due_date, status, user_id, task_id})=>{
+    try{
+        const result= await pool.query(
+        'update tasks set title=$1, description =$2, due_date = $3, status = $4, user_id=$5 where id=$6 returning *',
+        [title, description, due_date, status, user_id, task_id]);
+        return result.rows;
+    }
+    catch(err){
+        return err;
+    }
+
+};
+
+module.exports = { fetchTasks, addTask, updateTask };

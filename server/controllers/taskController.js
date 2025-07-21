@@ -1,4 +1,4 @@
-const {addTask, fetchTasks} = require ('../models/taskModel');
+const {addTask, fetchTasks, updateTask} = require ('../models/taskModel');
 
 const createTask = async (req, res) => {
     const {title,description,due_date,user_id} = req.body;
@@ -25,4 +25,17 @@ const getTasks = async (req,res) =>{
 
 };
 
-module.exports = {createTask, getTasks};
+const editTask  = async (req, res) => {
+    const { task_id } = req.params;
+    const { title, description, due_date, status, user_id } = req.body;
+
+    try{
+        const task = await updateTask({title, description, due_date, status, user_id,task_id});
+        return res.status(200).json({'task': task, message:'Task updated successfully'});
+    }
+    catch(err){
+        return res.status(401).json({error:err ,message : 'error updating tasks'});
+    }
+}
+
+module.exports = {createTask, getTasks, editTask};
